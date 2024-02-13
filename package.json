@@ -1,0 +1,14 @@
+{
+  "name": "js-toolbox",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "svelte": "^4.2.10"
+  }
+}
