@@ -37,6 +37,27 @@ hot code path, instead we can get the last object reference and set property dir
 
 i use this in svelte store when binding to form without needing a schema
 
+## Svelte Store
+
+dir: `./src/svelte-store.ts`
+
+### `forward(store, field, override)`
+
+Create store that forward property get and set from another store 
+
+```ts
+const store = writable<{ train: { wheel: { status: string }[] } }>()
+
+const forwarded = forwardNested(store,"train.wheel.0.status", e => e.trim())
+
+forwarded.set(" ok ") // bind to input
+```
+
+- use case
+
+use to bind to svelte form value where the input can be intercepted,
+can be use for advance validation
+
 ## Typescript
 
 dir: `./src/types.ts`
