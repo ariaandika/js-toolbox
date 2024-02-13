@@ -102,5 +102,37 @@ type Test = PartialAccess<{ train: { wheel: { connected: boolean }[] } },"train.
 // { connected: boolean }[]
 ```
 
+## Jose
+
+boilerplate for jose library
+
+```ts
+import { SignJWT, jwtVerify, JWTPayload } from "jose"
+
+const secret = new TextEncoder().encode(env.JWT_SECRET)
+const head = { alg: 'HS256' }
+const exp = '7d'
+const opt = {
+    issuer: 'example.com',
+    audience: 'example.com',
+}
+
+export const sign = <T extends JWTPayload>(payload: T) => new SignJWT(payload)
+    .setProtectedHeader(head)
+    .setIssuedAt()
+    .setIssuer(opt.issuer)
+    .setAudience(opt.audience)
+    .setExpirationTime(exp)
+    .sign(secret)
+
+export async function verify(token: string) {
+    try {
+        const data = await jwtVerify(token, secret, opt)
+        return { success: true as const, data }
+    } catch (error) {
+        return { success: false as const, error }
+    }
+}
+```
 
 
