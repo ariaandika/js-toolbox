@@ -1,4 +1,4 @@
-import { getNested, getNestedRef } from "./nested-object"
+import { getNested, getNestedRef, parseForm } from "./nested-object"
 import { describe, it, expect, beforeEach } from "bun:test"
 
 
@@ -42,6 +42,22 @@ describe(getNestedRef.name, () => {
 
         expect(app).toEqual({ train: { wheel: [{ status: "" }] } })
         expect(firstWheel).toEqual({ status: "" })
+    })
+
+})
+
+
+describe(parseForm.name, () => {
+
+    it("parse nested field form", () => {
+        const formData = new FormData()
+        formData.set("train.wheel.0.status","ok")
+        formData.set("train.wheel.1.status","ok")
+        formData.set("train.wheel.2.status","broken")
+
+        const app = parseForm(formData)
+
+        expect(app).toEqual({ train: { wheel: [{ status: "ok" },{ status: "ok" },{ status: "broken" }] } })
     })
 
 })

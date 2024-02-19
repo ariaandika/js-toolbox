@@ -1,3 +1,5 @@
+/// <reference lib="dom.iterable"/>
+
 export function getNested(obj: any, acc: string, fallback: any = "") {
     const current = getNestedRef(obj, acc, fallback)
     const lastkey = acc.split('.').at(-1)!
@@ -67,5 +69,21 @@ export function setNested(obj: any, acc: string, val: any) {
     })
 
     current[keys.at(-1)!] = val
+}
+
+export function parseForm<T>(form: FormData): T {
+    const obj = {} as any
+
+    for (const [k,v] of form) {
+
+        if (!k.includes('.')) {
+            obj[k] = v
+            continue
+        }
+
+        setNested(obj, k, v)
+    }
+
+    return obj
 }
 

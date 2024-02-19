@@ -37,6 +37,29 @@ hot code path, instead we can get the last object reference and set property dir
 
 i use this in svelte store when binding to form without needing a schema
 
+### `parseForm(formData)`
+
+Parse form data with special syntax that can represent nested data
+
+```ts
+const formData = new FormData()
+formData.set("train.wheel.0.status","ok")
+formData.set("train.wheel.1.status","ok")
+formData.set("train.wheel.2.status","broken")
+
+const app = parseForm(formData)
+
+{
+    train: {
+        wheel: [
+            { status: "ok" },
+            { status: "ok" },
+            { status: "broken" }
+        ]
+    }
+}
+```
+
 ## Svelte Store
 
 dir: `./src/svelte-store.ts`
