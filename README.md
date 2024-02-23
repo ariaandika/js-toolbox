@@ -1,5 +1,13 @@
 # Js-toolbox
 
+## Table of Contents
+
+- [Nested Object](#nested-object)
+- [Extending Object](#extending-object)
+- [Svelte Store](#svelte-store)
+- [Typescript](#typescript)
+- [Jose](#jose)
+
 ## Nested Object
 
 dir: `./src/nested-object.ts`
@@ -59,6 +67,45 @@ const app = parseForm(formData)
     }
 }
 ```
+
+## Extending object
+
+### Interuption
+
+do something before or after a function call
+
+```ts
+db.query = (() => {
+    const og = db.query
+    return function(...args) {
+        console.log("DB:",args[0].split(' ').slice(0,2))
+        return og.bind(this)(...args)
+    }
+})();
+```
+
+- use case
+
+i use this for logging database query
+
+### Once
+
+do something **once** before or after a function call
+
+```ts
+db.query = (() => {
+    const og = db.query
+    return async function(...args) {
+        await this.connect()
+        db.query = og.bind(this)
+        return app.query(...args)
+    }
+})();
+```
+
+- use case
+
+i use this to lazy connect to database on the first query
 
 ## Svelte Store
 
